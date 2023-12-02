@@ -1,6 +1,6 @@
 # AdventofCode2023
 
-My solutions to the advent of code event 2022. For this edition I chose to solve the puzzles using Java :coffee: .
+My solutions to the advent of code event 2022. For this edition I chose to solve the puzzles using Kotlin .
 
 | Day | Name                                                                      | Link                                         | Solution                                                                                                                |
 | --- | ------------------------------------------------------------------------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
