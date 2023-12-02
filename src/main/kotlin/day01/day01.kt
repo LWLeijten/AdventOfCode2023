@@ -1,5 +1,6 @@
 package day01
 
+import utils.readInputAsStringLines
 import kotlin.text.StringBuilder
 
 
@@ -16,7 +17,7 @@ val NUMBER_MAPPING = mapOf(
 )
 
 fun day1() {
-    val fileContent = { }::class.java.getResource("/inputs/day01.txt").readText().split("\n")
+    val fileContent = readInputAsStringLines("day01")
     day1a(fileContent)
     day1b(fileContent)
 }
