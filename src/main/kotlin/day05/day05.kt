@@ -2,6 +2,17 @@ package day05
 
 import utils.WHITESPACE_REGEX
 import utils.readInputAsStringLines
+import kotlin.math.min
+
+val RANGE_HEADERS = listOf(
+    "seed-to-soil map:",
+    "soil-to-fertilizer map:",
+    "fertilizer-to-water map:",
+    "water-to-light map:",
+    "light-to-temperature map:",
+    "temperature-to-humidity map:",
+    "humidity-to-location map:"
+)
 
 fun day5() {
     val fileContent = readInputAsStringLines("day05")
@@ -10,36 +21,47 @@ fun day5() {
         .trim()
         .split(WHITESPACE_REGEX)
         .map { s -> s.toLong() }
-    val stsRanges = initRange(fileContent, "seed-to-soil map:")
-    val stfRanges = initRange(fileContent, "soil-to-fertilizer map:")
-    val ftwRanges = initRange(fileContent, "fertilizer-to-water map:")
-    val wtlRanges = initRange(fileContent, "water-to-light map:")
-    val lttRanges = initRange(fileContent, "light-to-temperature map:")
-    val tthRanges = initRange(fileContent, "temperature-to-humidity map:")
-    val htlRanges = initRange(fileContent, "humidity-to-location map:")
+    val ranges = RANGE_HEADERS.map { rh -> initRange(fileContent, rh) }
+    day5a(ranges, seeds)
+    day5b(ranges, seeds)
+}
+
+private fun day5a(ranges: List<MutableList<Range>>, seeds: List<Long>) {
     val results = mutableListOf<Long>()
-    // Christmas tree
-    for (seed in seeds) {
-        results.add(
-            calculateNextValue(
-                calculateNextValue(
-                    calculateNextValue(
-                        calculateNextValue(
-                            calculateNextValue(
-                                calculateNextValue(
-                                    calculateNextValue(
-                                        seed,
-                                        stsRanges
-                                    ), stfRanges
-                                ), ftwRanges
-                            ), wtlRanges
-                        ), lttRanges
-                    ), tthRanges
-                ), htlRanges
-            )
-        )
+    seeds
+        .parallelStream()
+        .forEach { seed ->
+            var result = seed
+            ranges.forEach { r -> result = calculateNextValue(result, r) }
+            results.add(result)
+        }
+    println("Part one solution: " + results.min())
+}
+
+private fun day5b(ranges: List<MutableList<Range>>, seeds: List<Long>) {
+    val results = mutableListOf<Long>()
+    val seedRanges = getSeedRanges(seeds)
+    println("Brute force goes brrrrrrrrrrrrr")
+    seedRanges
+        .parallelStream()
+        .forEach { range ->
+            var minValue = Long.MAX_VALUE
+            for(i in range.first..range.second) {
+                var result = i
+                ranges.forEach { r -> result = calculateNextValue(result, r) }
+                minValue = min(result, minValue)
+            }
+            results.add(minValue)
+        }
+    println("Part two solution: " + results.min())
+}
+
+private fun getSeedRanges(seeds: List<Long>): MutableList<Pair<Long, Long>> {
+    val ranges = mutableListOf<Pair<Long, Long>>()
+    for (i in 0..seeds.size-2 step 2) {
+        ranges.add(Pair(seeds[i], seeds[i] + (seeds[i+1] - 1)))
     }
-    println(results.min())
+    return ranges
 }
 
 private fun calculateNextValue(input: Long, ranges: MutableList<Range>): Long {
