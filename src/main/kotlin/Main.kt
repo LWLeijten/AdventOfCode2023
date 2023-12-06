@@ -3,6 +3,7 @@ import day02.day2
 import day03.day3
 import day04.day4
 import day05.day5
+import day06.day6
 
 fun main() {
     println("Day 01 ###########################################")
@@ -15,4 +16,6 @@ fun main() {
     day4()
     println("Day 05 ###########################################")
     day5()
+    println("Day 06 ###########################################")
+    day6()
 }

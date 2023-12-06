@@ -1,6 +1,7 @@
 package day05
 
 import utils.WHITESPACE_REGEX
+import utils.parseToListOfLongs
 import utils.readInputAsStringLines
 import kotlin.math.min
 
@@ -16,11 +17,7 @@ val RANGE_HEADERS = listOf(
 
 fun day5() {
     val fileContent = readInputAsStringLines("day05")
-    val seeds = fileContent[0]
-        .substringAfter(":")
-        .trim()
-        .split(WHITESPACE_REGEX)
-        .map { s -> s.toLong() }
+    val seeds = parseToListOfLongs(fileContent[0])
     val ranges = RANGE_HEADERS.map { rh -> initRange(fileContent, rh) }
     day5a(ranges, seeds)
     day5b(ranges, seeds)
