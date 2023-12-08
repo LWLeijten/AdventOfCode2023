@@ -16,3 +16,22 @@ fun parseToListOfLongs(string: String): List<Long> {
 
 fun foldListOfLongs(list: List<Long>) =
     list.map { x -> x.toString() }.fold("") { acc, next -> acc + next }.toLong()
+
+fun gcd(a:Long, b:Long): Long {
+    var x = a
+    var y = b
+    while (y != 0L) {
+        val temp = y
+        y = x % y
+        x = temp
+    }
+    return x
+}
+
+fun lcm(a:Long, b:Long): Long {
+    return a * (b/gcd(a,b))
+}
+
+fun lcm(list: List<Long>): Long {
+    return list.reduce(::lcm)
+}
