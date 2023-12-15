@@ -1,5 +1,7 @@
 package utils
 
+import kotlin.math.abs
+
 val WHITESPACE_REGEX = "\\s+".toRegex()
 
 fun readInputAsStringLines(day: String): List<String> {
@@ -34,4 +36,8 @@ fun lcm(a:Long, b:Long): Long {
 
 fun lcm(list: List<Long>): Long {
     return list.reduce(::lcm)
+}
+
+fun manhattanDistance(a: Pair<Int,Int>, b: Pair<Int,Int>) : Int {
+    return abs(a.first - b.first) + abs(a.second - b.second)
 }
